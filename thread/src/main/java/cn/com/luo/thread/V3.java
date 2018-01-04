@@ -13,36 +13,38 @@ import static java.lang.Thread.sleep;
  *    可见性  可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值  V41
  *    有序性  即程序执行的顺序按照代码的先后顺序执行
  *  volatile  可见性     原子性 AtomicInteger  Lock  synchronized 保证i++的原子性
+ *  常用场景:
+ *     1.状态标记量
+ *     2.double check
+ *详见：https://www.cnblogs.com/dolphin0520/p/3920373.html  5volatile使用场景
+ *
  */
-public class V3 {
-    private static volatile String nonAtomicString = "";
-    private static volatile int nonAtomicCounter = 0;
+public class V3  {
+    private static   volatile  boolean stop = false;//确保stop在多线程中可见
+//    private   boolean stop = false;//确保stop在多线程中可见
 
-    private static int times = 0;
-    private static String string = "";
+
+
 
     public static void main(String[] args) {
-        for (int i = 0; i < 1000; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    nonAtomicCounter++;
-                    times++;
-                    try {
-                        sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
-        try {
-            sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(nonAtomicCounter);
-        System.out.println(times);
-    }
+        new Thread(new Runnable() {
 
+            @Override
+            public void run() {
+                while (!stop){
+                    System.out.println("等待主内存改变");
+                }
+                System.out.println("结束");
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                stop =true;
+                System.out.println(stop );
+            }
+        }).start();
+
+
+    }
 }
