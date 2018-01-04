@@ -15,41 +15,34 @@ import static java.lang.Thread.sleep;
  *  volatile  可见性     原子性 AtomicInteger  Lock  synchronized 保证i++的原子性
  */
 public class V3 {
+    private static volatile String nonAtomicString = "";
     private static volatile int nonAtomicCounter = 0;
 
     private static int times = 0;
+    private static String string = "";
 
-    public static void caculate() {
-        times++;
+    public static void main(String[] args) {
         for (int i = 0; i < 1000; i++) {
-            System.out.println(Thread.currentThread().getName()+"_"+i);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("--------------------------------------------------------------");
                     nonAtomicCounter++;
+                    times++;
+                    try {
+                        sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }).start();
         }
-
         try {
-            sleep(1000);
+            sleep(2000);
         } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-
-
-        caculate();
-        while (nonAtomicCounter == 1000) {
-            nonAtomicCounter = 0;
-
-            caculate();
-        }
-
-        System.out.println("Non-atomic counter: " + times + ":"
-                + nonAtomicCounter);
+        System.out.println(nonAtomicCounter);
+        System.out.println(times);
     }
 
 }
