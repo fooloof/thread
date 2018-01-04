@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * sleep(100)
- *      1、Threadk类里的静态方法
+ *      1、Thread类里的静态方法
  *      2、睡眠时间毫秒
  *      3、不释放所在线程锁
  */
