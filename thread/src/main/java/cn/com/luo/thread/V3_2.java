@@ -8,7 +8,7 @@ import static java.lang.Thread.sleep;
  */
 public class V3_2 {
     private static ThreadLocal threadLocal = new ThreadLocal();
-    private static Integer integer= 0;
+//    private static Integer integer= 0;
 
     public static void main(String[] args) {
         Thread thread = new Thread(new Runnable() {
@@ -16,7 +16,7 @@ public class V3_2 {
             public void run() {
                 for (int i = 0; i < 100; i++) {
                     threadLocal.set(i);
-                    integer=i;
+//                    integer=i;
                     try {
                         sleep(30);
                     } catch (InterruptedException e) {
@@ -34,7 +34,7 @@ public class V3_2 {
             public void run() {
                 for (int i = 200; i < 300; i++) {
                     threadLocal.set(i);
-                    integer=i;
+//                    integer=i;
                     try {
                         sleep(50);
                     } catch (InterruptedException e) {
