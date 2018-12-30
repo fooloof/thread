@@ -21,6 +21,7 @@ public class V5 {
     public static void main(String[] args) {
 
         V5 inst=new V5();
+        long l = System.currentTimeMillis();
         // 创建任务集合
         List<FutureTask<Long>> taskList = new ArrayList<FutureTask<Long>>();
         // 创建线程池
@@ -50,8 +51,9 @@ public class V5 {
 
         // 关闭线程池
         exec.shutdown();
+        long l1 = System.currentTimeMillis();
         System.out.println("多任务计算后的总结果是:" + totalResult);
-
+        System.out.println("time:"+(l1-l));
     }
 
     private class ComputeTask implements Callable<Long> {

@@ -48,21 +48,24 @@ import java.util.concurrent.RecursiveTask;
 
  *
  */
-public class V6 {
-    private static final Long  LENGTH = 1000000000L;
-    private static final Long  AREA = 100000000L;
+public class V8 {
+    private static final Long  START = 1L;
+    private static final Long  END = 1000000000L;
 
+
+    private static final Long  START1 = 1L;
+    private static final Long  END1= 10000L;
 
     public static void main(String[] args) {
-        V6 v6 = new V6();
+        V8 v6 = new V8();
         long l1 = System.currentTimeMillis();
         List<ForkJoinTask<Long>> forkJoinTasks = new ArrayList<>();
-        long poolSize = LENGTH/AREA;
-        ForkJoinPool forkJoinPool = new ForkJoinPool((int)poolSize);
-        for (int i = 0; i < poolSize ; i++) {
-            AddTask addTask = v6.new AddTask(AREA*i,AREA*(i+1));
-            forkJoinTasks.add(forkJoinPool.submit(addTask));
-        }
+        ForkJoinPool forkJoinPool = new ForkJoinPool(5);
+        AddTask addTask = v6.new AddTask(START,END);
+        AddTask addTask1 = v6.new AddTask(START1,END1);
+        forkJoinTasks.add(forkJoinPool.submit(addTask));
+        forkJoinTasks.add(forkJoinPool.submit(addTask1));
+
         long result = 0;
         for (ForkJoinTask<Long> longForkJoinTask : forkJoinTasks) {
             try {
